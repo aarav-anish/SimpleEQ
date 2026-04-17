@@ -13,7 +13,7 @@
 
 class CustomRotarySlider : public juce::Slider
 {
-  public:
+public:
   CustomRotarySlider() : juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag,
                                       juce::Slider::TextEntryBoxPosition::NoTextBox)
   {
@@ -45,6 +45,17 @@ private:
       highCutFreqSlider,
       lowCutSlopeSlider,
       highCutSlopeSlider;
+
+  using APVTS = juce::AudioProcessorValueTreeState;
+  using SliderAttachment = APVTS::SliderAttachment;
+
+  SliderAttachment peakFreqSliderAttachment,
+      peakGainSliderAttachment,
+      peakQualitySliderAttachment,
+      lowCutFreqSliderAttachment,
+      highCutFreqSliderAttachment,
+      lowCutSlopeSliderAttachment,
+      highCutSlopeSliderAttachment;
 
   std::vector<juce::Component *> getComps();
 
