@@ -18,7 +18,7 @@ class LookAndFeel : public juce::LookAndFeel_V4
                         float sliderPosProportional,
                         float rotaryStartAngle,
                         float rotaryEndAngle,
-                        juce::Slider &slider) override {}
+                        juce::Slider &slider) override;
 };
 
 class RotarySliderWithLabels : public juce::Slider
@@ -38,7 +38,7 @@ public:
     setLookAndFeel(nullptr);
   }
 
-  void paint(juce::Graphics &g) override {}
+  void paint(juce::Graphics &g) override;
 
   juce::Rectangle<int> getSliderBounds() const;
 
