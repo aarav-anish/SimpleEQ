@@ -23,10 +23,10 @@ void LookAndFeel::drawRotarySlider(juce::Graphics &g,
 
     auto bounds = Rectangle<float>(x, y, width, height);
 
-    g.setColour(Colours::darkgrey);
+    g.setColour(Colour(37u, 0u, 1u));
     g.fillEllipse(bounds);
 
-    g.setColour(Colours::orange);
+    g.setColour(Colour(252u, 186u, 4u));
     g.drawEllipse(bounds, 1.f);
 
     if (auto *rswl = dynamic_cast<RotarySliderWithLabels *>(&slider))
@@ -61,23 +61,6 @@ void LookAndFeel::drawRotarySlider(juce::Graphics &g,
         g.setColour(Colours::white);
         g.drawFittedText(text, r.toNearestInt(), Justification::centred, 1);
     }
-
-    auto center = bounds.getCentre();
-
-    Path p;
-    Rectangle<float> r;
-    r.setLeft(center.getX() - 2.f);
-    r.setRight(center.getX() + 2.f);
-    r.setTop(bounds.getY());
-    r.setBottom(center.getY());
-
-    p.addRectangle(r);
-
-    jassert(rotaryStartAngle < rotaryEndAngle);
-    auto sliderAngleRad = jmap(sliderPosProportional, 0.f, 1.f, rotaryStartAngle, rotaryEndAngle);
-    p.applyTransform(AffineTransform::rotation(sliderAngleRad, center.getX(), center.getY()));
-
-    g.fillPath(p);
 }
 
 void RotarySliderWithLabels::paint(juce::Graphics &g)
@@ -143,10 +126,11 @@ juce::String RotarySliderWithLabels::getDisplayString() const
         jassertfalse; // this shouldn't happen, but you could add support for other parameter types if you need to.
     }
 
-    if(suffix.isNotEmpty())
+    if (suffix.isNotEmpty())
     {
         str << " ";
-        if(addK) {
+        if (addK)
+        {
             str << "k";
         }
         str << suffix;
