@@ -91,10 +91,10 @@ void RotarySliderWithLabels::paint(juce::Graphics &g)
 
     auto sliderBounds = getSliderBounds();
 
-    g.setColour(Colours::darkgrey);
-    g.drawRect(getLocalBounds());
-    g.setColour(Colours::orange);
-    g.drawRect(sliderBounds);
+    // g.setColour(Colours::darkgrey);
+    // g.drawRect(getLocalBounds());
+    // g.setColour(Colours::orange);
+    // g.drawRect(sliderBounds);
 
     getLookAndFeel().drawRotarySlider(g,
                                       sliderBounds.getX(),
@@ -121,7 +121,38 @@ juce::Rectangle<int> RotarySliderWithLabels::getSliderBounds() const
 
 juce::String RotarySliderWithLabels::getDisplayString() const
 {
-    return juce::String(getValue());
+    if (auto choicesParam = dynamic_cast<juce::AudioParameterChoice *>(param))
+    {
+        return choicesParam->getCurrentChoiceName();
+    }
+    juce::String str;
+    bool addK = false;
+
+    if (auto *floatParam = dynamic_cast<juce::AudioParameterFloat *>(param))
+    {
+        float val = floatParam->get();
+        if (val > 999.f)
+        {
+            val /= 1000.f;
+            addK = true;
+        }
+        str = juce::String(val, addK ? 2 : 1);
+    }
+    else
+    {
+        jassertfalse; // this shouldn't happen, but you could add support for other parameter types if you need to.
+    }
+
+    if(suffix.isNotEmpty())
+    {
+        str << " ";
+        if(addK) {
+            str << "k";
+        }
+        str << suffix;
+    }
+
+    return str;
 }
 
 //==============================================================================
