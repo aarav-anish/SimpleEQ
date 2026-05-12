@@ -38,6 +38,14 @@ public:
     setLookAndFeel(nullptr);
   }
 
+  struct LabelPos
+  {
+    float pos;
+    juce::String label;
+  };
+
+  juce::Array<LabelPos> labels;
+
   void paint(juce::Graphics &g) override;
 
   juce::Rectangle<int> getSliderBounds() const;
