@@ -84,6 +84,8 @@ private:
   MonoChain monoChain;
   juce::Atomic<bool> parametersChanged{false};
 
+  void updateChain();
+
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ResponseCurveComponent)
 };
 
