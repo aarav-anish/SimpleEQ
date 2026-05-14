@@ -90,6 +90,9 @@ private:
 
   juce::Image background;
 
+  juce::Rectangle<int> getRenderArea();
+  juce::Rectangle<int> getAnalysisArea();
+
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ResponseCurveComponent)
 };
 
