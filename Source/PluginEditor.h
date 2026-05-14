@@ -79,12 +79,16 @@ public:
 
   void paint(juce::Graphics &) override;
 
+  void resized() override;
+
 private:
   SimpleEQAudioProcessor &audioProcessor;
   MonoChain monoChain;
   juce::Atomic<bool> parametersChanged{false};
 
   void updateChain();
+
+  juce::Image background;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ResponseCurveComponent)
 };
