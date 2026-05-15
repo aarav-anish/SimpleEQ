@@ -294,10 +294,16 @@ void ResponseCurveComponent::resized()
     background = Image(Image::PixelFormat::RGB, getWidth(), getHeight(), true);
     Graphics g(background);
 
+    // Array<float> freqs{
+    //     20, 30, 40, 50, 100,
+    //     200, 300, 400, 500, 1000,
+    //     2000, 3000, 4000, 5000, 10000,
+    //     20000};
+
     Array<float> freqs{
-        20, 30, 40, 50, 100,
-        200, 300, 400, 500, 1000,
-        2000, 3000, 4000, 5000, 10000,
+        20, 50, 100,
+        200, 500, 1000,
+        2000, 5000, 10000,
         20000};
 
     auto renderArea = getRenderArea();
@@ -336,6 +342,31 @@ void ResponseCurveComponent::resized()
 
     // g.drawRect(getRenderArea());
     // g.drawRect(getAnalysisArea());
+
+    g.setColour(Colours::lightgrey);
+    const int fontHeight = 10.f;
+    g.setFont(fontHeight);
+
+    for (int i = 0; i < freqs.size(); ++i)
+    {
+        auto f = freqs[i];
+        auto x = xs[i];
+        String str;
+        if (f >= 1000.f)
+            str << (f / 1000.f) << "k";
+        else
+            str << f;
+        str << "Hz";
+
+        auto textWidth = g.getCurrentFont().getStringWidth(str);
+
+        Rectangle<float> r;
+        r.setSize(textWidth, fontHeight);
+        r.setCentre(x, 0);
+        r.setY(1);
+
+        g.drawFittedText(str, r.toNearestInt(), Justification::centred, 1);
+    }
 }
 
 juce::Rectangle<int> ResponseCurveComponent::getRenderArea()
