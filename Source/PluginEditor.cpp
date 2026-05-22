@@ -243,7 +243,7 @@ void ResponseCurveComponent::timerCallback()
 
     /*
     while there are paths available from the path producer
-    pull them and add them to a local path 
+    pull them and add them to a local path
     which the paint method can use to draw the FFT analysis curve.
     */
     while (pathProducer.getNumPathsAvailable() > 0)
@@ -341,7 +341,9 @@ void ResponseCurveComponent::paint(juce::Graphics &g)
         responseCurve.lineTo(responseArea.getX() + i, map(mags[i]));
     }
 
-    g.setColour(juce::Colours::blue);
+    leftChannelFFTPath.applyTransform(juce::AffineTransform().translation(responseArea.getX(), responseArea.getY()));
+
+    g.setColour(juce::Colours::skyblue);
     g.strokePath(leftChannelFFTPath, juce::PathStrokeType(1.f));
 
     g.setColour(juce::Colours::orange);
