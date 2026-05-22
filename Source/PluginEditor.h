@@ -209,6 +209,33 @@ private:
 /**
  */
 
+class PathProducer
+{
+public:
+  PathProducer(SingleChannelSampleFifo<SimpleEQAudioProcessor::BlockType> &scsf) : leftChannelFifo(&scsf)
+  { /*
+    48000 / 2048 = 23.4375 hz per bin,
+    so we can expect to have a little over 23 hz resolution in our FFT data,
+    which is pretty good for a 2048 point FFT.
+    */
+    leftChannelFFTDataGenerator.changeOrder(FFTOrder::order2048);
+    monoBuffer.setSize(1, leftChannelFFTDataGenerator.getFFTSize());
+  }
+  void process(juce::Rectangle<float> fftBounds, double sampleRate);
+  juce::Path getPath() { return leftChannelFFTPath; }
+
+private:
+  SingleChannelSampleFifo<SimpleEQAudioProcessor::BlockType> *leftChannelFifo;
+
+  juce::AudioBuffer<float> monoBuffer;
+
+  FFTDataGenerator<std::vector<float>> leftChannelFFTDataGenerator;
+
+  AnalyzerPathGenerator<juce::Path> pathProducer;
+
+  juce::Path leftChannelFFTPath;
+};
+
 class ResponseCurveComponent : public juce::Component,
                                public juce::AudioProcessorParameter::Listener,
                                public juce::Timer
@@ -237,15 +264,7 @@ private:
   juce::Rectangle<int> getRenderArea();
   juce::Rectangle<int> getAnalysisArea();
 
-  SingleChannelSampleFifo<SimpleEQAudioProcessor::BlockType> *leftChannelFifo;
-
-  juce::AudioBuffer<float> monoBuffer;
-
-  FFTDataGenerator<std::vector<float>> leftChannelFFTDataGenerator;
-
-  AnalyzerPathGenerator<juce::Path> pathProducer;
-
-  juce::Path leftChannelFFTPath;
+  PathProducer leftPathProducer, rightPathProducer;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ResponseCurveComponent)
 };
