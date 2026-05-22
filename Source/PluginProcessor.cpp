@@ -107,6 +107,13 @@ void SimpleEQAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBloc
 
     leftChannelFifo.prepare(samplesPerBlock);
     rightChannelFifo.prepare(samplesPerBlock);
+
+    testOscillator.initialise([](float x)
+                              { return std::sin(x); });
+
+    spec.numChannels = getTotalNumOutputChannels();
+    testOscillator.prepare(spec);
+    testOscillator.setFrequency(1000.f);
 }
 
 void SimpleEQAudioProcessor::releaseResources()
@@ -158,6 +165,10 @@ void SimpleEQAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer, juce
     updateFilters();
 
     juce::dsp::AudioBlock<float> block(buffer);
+
+    buffer.clear();
+    juce::dsp::ProcessContextReplacing<float> stereoContext(block);
+    testOscillator.process(stereoContext);
 
     auto leftBlock = block.getSingleChannelBlock(0);
     auto rightBlock = block.getSingleChannelBlock(1);
