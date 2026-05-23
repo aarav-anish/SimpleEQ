@@ -274,6 +274,14 @@ private:
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ResponseCurveComponent)
 };
 
+class PowerButton : public juce::ToggleButton
+{
+};
+
+class AnalyzerButton : public juce::ToggleButton
+{
+};
+
 class SimpleEQAudioProcessorEditor : public juce::AudioProcessorEditor
 {
 public:
@@ -310,10 +318,8 @@ private:
       lowCutSlopeSliderAttachment,
       highCutSlopeSliderAttachment;
 
-  juce::ToggleButton lowCutBypassButton,
-      highCutBypassButton,
-      peakBypassButton,
-      analyzerEnabledButton;
+  PowerButton lowCutBypassButton, highCutBypassButton, peakBypassButton;
+  AnalyzerButton analyzerEnabledButton;
 
   using ButtonAttachment = APVTS::ButtonAttachment;
 
