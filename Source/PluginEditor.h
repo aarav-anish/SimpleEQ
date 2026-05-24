@@ -280,6 +280,27 @@ class PowerButton : public juce::ToggleButton
 
 class AnalyzerButton : public juce::ToggleButton
 {
+public:
+  void resized() override
+  {
+    auto bounds = getLocalBounds();
+    auto insetRect = bounds.reduced(4);
+
+    randomPath.clear();
+
+    juce::Random r;
+
+    randomPath.startNewSubPath(insetRect.getX(),
+                               insetRect.getY() + r.nextFloat() * insetRect.getHeight());
+
+    for (auto x = insetRect.getX() + 1; x < insetRect.getRight(); x += 2.f)
+    {
+      randomPath.lineTo(x,
+                        insetRect.getY() + r.nextFloat() * insetRect.getHeight());
+    }
+  }
+
+  juce::Path randomPath;
 };
 
 class SimpleEQAudioProcessorEditor : public juce::AudioProcessorEditor

@@ -101,29 +101,15 @@ void LookAndFeel::drawToggleButton(juce::Graphics &g,
         g.strokePath(powerButton, pst);
         g.drawEllipse(r, 2.f);
     }
-    else if (auto *ab = dynamic_cast<AnalyzerButton *>(&toggleButton))
+    else if (auto *analyzerButton = dynamic_cast<AnalyzerButton *>(&toggleButton))
     {
         auto color = !toggleButton.getToggleState() ? Colours::dimgrey : Colour(0u, 172u, 1u);
         g.setColour(color);
 
-        Path randomPath;
-        Random r;
-
         auto bounds = toggleButton.getLocalBounds();
         g.drawRect(bounds);
 
-        auto insetRect = bounds.reduced(4.f);
-
-        randomPath.startNewSubPath(insetRect.getX(),
-                                   insetRect.getY() + r.nextFloat() * insetRect.getHeight());
-
-        for (auto x = insetRect.getX() + 1; x < insetRect.getRight(); x += 2.f)
-        {
-            randomPath.lineTo(x,
-                              insetRect.getY() + r.nextFloat() * insetRect.getHeight());
-        }
-
-        g.strokePath(randomPath, PathStrokeType(1.f));
+        g.strokePath(analyzerButton->randomPath, PathStrokeType(1.f));
     }
 }
 
