@@ -257,6 +257,10 @@ public:
 
   void resized() override;
 
+  void toggleAnalysisEnablement(bool enabled) {
+    shouldShowFFTAnalysis = enabled;
+  }
+
 private:
   SimpleEQAudioProcessor &audioProcessor;
   MonoChain monoChain;
@@ -270,6 +274,8 @@ private:
   juce::Rectangle<int> getAnalysisArea();
 
   PathProducer leftPathProducer, rightPathProducer;
+
+  bool shouldShowFFTAnalysis = true;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ResponseCurveComponent)
 };
