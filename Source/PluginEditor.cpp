@@ -102,6 +102,9 @@ void LookAndFeel::drawToggleButton(juce::Graphics &g,
         g.setColour(color);
         g.strokePath(powerButton, pst);
         g.drawEllipse(r, 2.f);
+
+        size += 11.f;
+        pb->hitPath.addEllipse(bounds.withSizeKeepingCentre(size, size).toFloat());
     }
     else if (auto *analyzerButton = dynamic_cast<AnalyzerButton *>(&toggleButton))
     {

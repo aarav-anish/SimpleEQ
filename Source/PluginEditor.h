@@ -257,7 +257,8 @@ public:
 
   void resized() override;
 
-  void toggleAnalysisEnablement(bool enabled) {
+  void toggleAnalysisEnablement(bool enabled)
+  {
     shouldShowFFTAnalysis = enabled;
   }
 
@@ -282,6 +283,13 @@ private:
 
 class PowerButton : public juce::ToggleButton
 {
+public:
+  bool hitTest(int x, int y) override
+  {
+    return hitPath.contains ((float) x, (float) y);
+  }
+
+  juce::Path hitPath;
 };
 
 class AnalyzerButton : public juce::ToggleButton
